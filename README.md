@@ -1,5 +1,7 @@
 # 자동차 렌트 서비스
 
+<img src="https://user-images.githubusercontent.com/62331803/92744440-79239e00-f3bc-11ea-9cda-dfcfd22a1eb7.png" width="50%">
+
 ## 프로젝트 개요
 ### 1. 차량 렌트 서비스 개요
 - 고객이 빌리고 싶은 차량을 선택
