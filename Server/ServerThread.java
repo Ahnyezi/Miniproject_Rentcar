@@ -1,7 +1,5 @@
-package MiniProject2;
+package server;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,7 +16,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import jdbc.dbconn.DBConn;
+import client.Order;
+import client.User;
+import server.dbconn.DBConn;
 
 public class ServerThread extends Thread {
 	private DBConn db;
@@ -27,7 +27,6 @@ public class ServerThread extends Thread {
 	private PrintWriter out;
 	private ObjectInputStream os;
 	private ObjectOutputStream oo;
-	
 
 	ServerThread(Socket socket) {
 		db = DBConn.getInstance();
@@ -61,15 +60,15 @@ public class ServerThread extends Thread {
 				} else if (msg.contains("/insert")){
 					System.out.println("회원가입");
 					try {
-						User user = (User)os.readObject();
+						User user = (User) os.readObject();
 						out.println(insert(user));
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				} else if (msg.contains("/login")){	// User login(User user)
-					try {	
-						User tmp = login((User)os.readObject());				
+					try {
+						User tmp = login ((User) os.readObject());				
 						oo.writeObject(tmp);
 						oo.flush();
 					} catch (ClassNotFoundException e) {
@@ -95,8 +94,13 @@ public class ServerThread extends Thread {
 					System.out.println("결제 가능 목록 출력");
 					ArrayList<Order> al;
 					try {
-						al = payAvailable((User)os.readObject());
-						oo.writeObject(al);
+						User user = (User)os.readObject();
+						System.out.println("get user:"+user);
+						if (user instanceof User){
+							al = payAvailable(user);
+							oo.writeObject(al);
+						}
+						System.out.println("2");
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -172,7 +176,7 @@ public class ServerThread extends Thread {
 		return d;
 	}
 
-	boolean insert(Order o) { // 주문내역 추가
+	public boolean insert(Order o) { // 주문내역 추가
 		System.out.println(o);
 		//System.out.println("주문내역 추가 함수 "+o.getTime());
 		// seq_order : 사용 시퀀스 이름
@@ -180,6 +184,7 @@ public class ServerThread extends Thread {
 		// string date -> sql date로 바꾸기
 		Date d = transformDate(o.getDate());
 		java.sql.Date sqlDate = new java.sql.Date(d.getTime());
+		System.out.println("sqlDate:"+sqlDate);
 
 		// 인덱스, 유저아이디, 차, 원하는 날짜, 시간, 결제플래그
 		// String sql = "insert into rent_order
@@ -200,6 +205,7 @@ public class ServerThread extends Thread {
 			*/
 			PreparedStatement pstmt = conn.prepareStatement(sql2);
 			rs = pstmt.executeQuery();
+			
 			
 			int idx=0;
 			while (rs.next()) {// rs.next(): 검색 결과에서 줄 이동
@@ -224,7 +230,7 @@ public class ServerThread extends Thread {
 		return false;
 	}
 
-	int pay(int orderNum) { // 주문 번호 받아서 결제
+	public int pay(int orderNum) { // 주문 번호 받아서 결제
 		Connection conn = db.getConnect();
 
 		String searchSql = "select order_flag from rent_order where ORDER_NUM = ?";
@@ -295,7 +301,7 @@ public class ServerThread extends Thread {
 		return 0;
 	}
 
-	String EnableTime(Order o) { // 예약 가능한 시간대를 String으로 반환
+	public String EnableTime(Order o) { // 예약 가능한 시간대를 String으로 반환
 		String[] time = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
 				"17", "18", "19", "20", "21", "22", "23" };
 		String enable_time = "";
@@ -342,10 +348,11 @@ public class ServerThread extends Thread {
 		return null;
 	}
 
-	ArrayList<Order> payAvailable(User user) {
+	public ArrayList<Order> payAvailable(User user) {
 		System.out.println(user);
+		
 		ArrayList<Order> list = new ArrayList<Order>();
-		String sql = "select * from rent_order where order_id=? and order_flag=0";
+		String sql = "select * from rent_order where order_id=? and order_flag= 0";
 		Connection conn = db.getConnect();
 		PreparedStatement pstmt;
 		try {
@@ -370,7 +377,7 @@ public class ServerThread extends Thread {
 		return list;
 	}
 
-	ArrayList<Order> printAll(User u) {
+	public ArrayList<Order> printAll(User u) {
 		// user의 id로 찾아서 결제
 		Connection conn = db.getConnect();
 		String sql = "select * from rent_order where order_id = ?"; // 해당 id의
@@ -401,7 +408,7 @@ public class ServerThread extends Thread {
 		return list;
 	}
 
-	int cancle(int orderNum) { // 주문 취소
+	public int cancle(int orderNum) { // 주문 취소
 		// 만약 이미 결제가 되어 있다면 실패
 		Connection conn = db.getConnect();
 
@@ -441,7 +448,7 @@ public class ServerThread extends Thread {
 		return 0;
 	}
 
-	int IDCheck(String id) { // id가 DB에 존재 하는지 여부 확인
+	public int IDCheck(String id) { // id가 DB에 존재 하는지 여부 확인
 		String sql = "select * from rent_member where mid=?";
 		Connection conn = db.getConnect();
 		try {
@@ -488,7 +495,7 @@ public class ServerThread extends Thread {
 		return false;
 	}
 
-	User login(User user) { // idcheck가 끝난 뒤 실행되는 로그인 함수
+	public User login(User user) { // idcheck가 끝난 뒤 실행되는 로그인 함수
 		System.out.println("login함수 실행");
 		String sql = "select license, name from rent_member where mid=? and pwd=?";
 		Connection conn = db.getConnect();

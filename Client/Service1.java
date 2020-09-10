@@ -1,4 +1,4 @@
-package MiniProject2;
+package client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -85,13 +85,12 @@ public class Service1 {
 		System.out.println("PWD:"); String pwd = sc.next();
 
 		try {
-			user = new User(id, pwd, "", 1); // 유저 생성
-			
-			out.println("/login");
-			//System.out.println(user);
-			
-			oo.writeObject(user);// 객체 보내기
-			oo.flush();
+			user = new User(id, pwd, "", 1);
+			out.println("/login");			
+			if(user instanceof User){//터짐 방지
+				oo.writeObject(user);
+				oo.flush();
+			}
 			
 			user = (User) din.readObject();
 			if (user == null) {

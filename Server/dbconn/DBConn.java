@@ -1,4 +1,4 @@
-package MiniProject2.dbconn;
+package server.dbconn;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

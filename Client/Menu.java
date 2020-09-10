@@ -1,4 +1,4 @@
-package MiniProject2;
+package client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -96,7 +96,8 @@ public class Menu {
 				service2.cancelOrder(sc);
 				break;
 			case 5:
-				flag=false;
+				service2.stop(sc);
+				flag = false;
 				break;
 			default:
 				System.out.println("메뉴를 잘못 입력하셨습니다. 다시 입력해주세요.");

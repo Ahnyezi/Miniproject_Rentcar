@@ -1,4 +1,4 @@
-package MiniProject2;
+package server;
 
 import java.io.Serializable;
 
@@ -43,9 +43,10 @@ public class User implements Serializable {
 		this.lNum = lNum;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", pwd=" + pwd + ", name=" + name + ", lNum=" + lNum + "]";
-	}
+	 //user 클래스
+	   @Override
+	   public String toString() {
+	      return "사용자 정보\n [ID:" + id + ", PWD:" + pwd + ", 이름:" + name + ", 면허번호:" + lNum + "]";
+	   }
 	
 }

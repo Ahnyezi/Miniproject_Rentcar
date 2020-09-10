@@ -1,4 +1,4 @@
-package MiniProject2;
+package client;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -51,19 +51,18 @@ public class Service2 {
 		// 차 체크
 		if (carCheck(carName) == null) {
 			System.out.println("잘못된 차 이름을 입력하셨습니다.다시 입력해주세요");
-			addOrder(sc);// 물어보기
+			addOrder(sc);
 		}
 
 		System.out.println("대여하고 싶은 날짜를 입력하세요 대여할 날짜를 입력하세요 ex.대여희망날짜:2020년 5월 8일=>20200508");
 		String date = sc.next();
 
-		// int num, String id, String carName, String date, String time, int
-		// flag
+		// int num, String id, String carName, String date, String time, int flag
 		order = new Order(55, user.getId(), carName, date, "", 0);
 		return order;
 	}
 
-	public String addTime(Scanner sc, String time) {// 대여 시간 선택 **검토
+	public String addTime(Scanner sc, String time) {// 대여 시간 선택
 		boolean flag = true;
 		int start = 0, end = 0;
 		do {
@@ -86,28 +85,11 @@ public class Service2 {
 
 	// 차 체크
 	public String carCheck(String carName) {
-		boolean flag;
-		switch (carName) {
-		case "suv":
-			flag = true;
-			break;
-		case "tyco":
-			flag = true;
-			break;
-		case "genesis":
-			flag = true;
-			break;
-		case "ferrari":
-			flag = true;
-			break;
-		case "bmw":
-			flag = true;
-			break;
-		default:
-			flag = false;
-		}
-		if (flag == true) {
-			return carName;
+		String[] cars = {"suv","tyco","genesis","ferrari","bmw"};
+		for (int i=0;i<cars.length;i++){
+			if(carName.equals(cars[i])){
+				return carName;
+			}
 		}
 		return null;
 	}
@@ -135,29 +117,35 @@ public class Service2 {
 		}
 	}
 
-	public void printAvailable() {// 미결제 목록 출력
+	public boolean printAvailable() {// 미결제 목록 출력
 		ArrayList<Order> list;
 		Iterator<Order> iterator;
+		boolean flag = false;
 
 		System.out.println("<미결제 목록 출력>");
 		try {
-			out.println("/PayAvailable");//
+			out.println("/PayAvailable");
+			System.out.println(user);
 			oo.writeObject(user);
-			// System.out.println(user);
 
 			list = (ArrayList<Order>) din.readObject();
-			// System.out.println(list.size());
-
-			iterator = list.iterator();
-			while (iterator.hasNext()) {
-				order = (Order) iterator.next();
-				System.out.println(order);
+			
+			if(list.size()!=0){
+				iterator = list.iterator();
+				while (iterator.hasNext()) {
+					order = (Order) iterator.next();
+					System.out.println(order);
+					flag = true;
+				}
+			}else{
+				System.out.println("미결제 주문이 없습니다.");
 			}
 
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
+		return flag;
 	}
 
 	public void PrintAll() {// 전체 주문목록 출력
@@ -169,12 +157,16 @@ public class Service2 {
 			oo.writeObject(user);
 
 			list = (ArrayList<Order>) din.readObject();
-			iterator = list.iterator();
-			while (iterator.hasNext()) {
-				order = (Order) iterator.next();
-				System.out.println(order);
-			} // while
-		} // try
+			if(list.size()!=0){
+				iterator = list.iterator();
+				while (iterator.hasNext()) {
+					order = (Order) iterator.next();
+					System.out.println(order);
+				}
+			}else{
+				System.out.println("주문이 없습니다.");
+			}
+		}	
 		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -185,9 +177,11 @@ public class Service2 {
 	}
 
 	public int selectPay(Scanner sc, int orderNum) {// 메뉴에서 결제 선택한 경우
-		printAvailable();
-		System.out.println("결제할 주문번호를 선택하세요");
-		orderNum = sc.nextInt();
+		boolean flag = printAvailable();
+		if(flag){
+			System.out.println("결제할 주문번호를 선택하세요");
+			orderNum = sc.nextInt();
+		}
 		return orderNum;
 	}
 
@@ -241,9 +235,10 @@ public class Service2 {
 		return false;
 	}
 
-	public boolean pay(Scanner sc, int orderNum) {
+	public void pay(Scanner sc, int orderNum) {
 		if (orderNum == -1) {// 메뉴에서 선택해서 온 경우
 			orderNum = selectPay(sc, -1);
+			if(orderNum == -1){return;}
 		}
 		try {
 			out.println("/pay");
@@ -252,7 +247,7 @@ public class Service2 {
 			String flag = br.readLine(); // 결제가 되어있으면 0, 결제가 되어있지않으면 1
 			// System.out.println(flag); //0 or 1
 
-			if (flag.equals("1")) { // 결제가능{
+			if (flag.equals("1")) { // 결제가능
 				String tmp = br.readLine();
 				// System.out.println(tmp);
 				int price = Integer.parseInt(tmp); // 가격
@@ -273,11 +268,11 @@ public class Service2 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
 	}
 
 	public void cancelOrder(Scanner sc) {// 주문취소
-		printAvailable();
+		boolean flag2 = printAvailable();
+		if(flag2){
 		try {
 			System.out.println("취소 희망하는 주문 번호 입력하시오(숫자만 입력):");
 			out.println("/cancle");
@@ -294,6 +289,11 @@ public class Service2 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} // catch
+	}
+	}
+	
+	public void stop(Scanner sc){
+		out.println("/stop");
 	}
 
 }

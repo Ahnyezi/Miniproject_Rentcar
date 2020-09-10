@@ -1,4 +1,4 @@
-package MiniProject2;
+package client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,7 +11,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		try {			
-			Socket socket = new Socket("192.168.103.64",8888);
+			Socket socket = new Socket("192.168.0.13",8888);
 			Menu menu = new Menu(socket);
 			menu.run1(sc);
 			socket.close();

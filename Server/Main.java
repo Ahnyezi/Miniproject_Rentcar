@@ -1,4 +1,4 @@
-package MiniProject2;
+package server;
 
 import java.io.IOException;
 import java.net.ServerSocket;

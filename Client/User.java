@@ -1,4 +1,4 @@
-package MiniProject2;
+package client;
 
 import java.io.Serializable;
 
