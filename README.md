@@ -1,6 +1,10 @@
 # 자동차 렌트 서비스
 
-<img src="https://user-images.githubusercontent.com/62331803/92744440-79239e00-f3bc-11ea-9cda-dfcfd22a1eb7.png" width="50%">
+## 스킬셋
+- Java
+- JDBC
+- Oracle
+- TCP 프로토콜
 
 <br>
 
