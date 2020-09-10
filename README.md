@@ -27,61 +27,75 @@
 ## 시연
 ### 1. 회원가입
 
-> 이미 존재하는 아이디를 입력한 경우 <br>
+#### >> 이미 존재하는 아이디를 입력한 경우 <br>
 
 <img src="https://user-images.githubusercontent.com/62331803/92733830-f2b68e80-f3b2-11ea-8061-90acd0714a14.png" width="50%">
 
 <br>
 
-> 존재하지 않는 아이디로 회원가입 <br>
+#### >> 존재하지 않는 아이디로 회원가입 <br>
 
 <img src="https://user-images.githubusercontent.com/62331803/92734220-4c1ebd80-f3b3-11ea-88c7-261df71f81c1.png" width="50%">
+
 <br>
 
 ###  2. 로그인
-> 멤버 테이블 <br>
+#### >> 멤버 테이블 <br>
 
 <img src="https://user-images.githubusercontent.com/62331803/92735853-b5eb9700-f3b4-11ea-8340-365aa64477d2.png" width="50%">
 <br>
 
-> 존재하지 않는 정보 입력 <br>
+#### >> 존재하지 않는 정보 입력 <br>
 
 ![image](https://user-images.githubusercontent.com/62331803/92734953-f565b380-f3b3-11ea-87f1-bc607eeef527.png)
 
-> 존재하는 정보 입력 <br>
+<br>
+
+#### >> 존재하는 정보 입력 <br>
 
 ![image](https://user-images.githubusercontent.com/62331803/92736057-e3384500-f3b4-11ea-9128-8d2c17fb966d.png)
 
+<br>
+
 ### 3. 주문
- > 주문할 차량과 날짜를 입력
+#### >> 주문할 차량과 날짜를 입력
 - 해당 날짜에 해당 차량이 가능한 시간대 출력 (현재 12시부터 16시까지는 이미 대여완료) <br>
 ![image](https://user-images.githubusercontent.com/62331803/92737299-fac3fd80-f3b5-11ea-9958-042f0a475989.png)
 
-> 주문 완료 <br>
+<br>
+
+#### >> 주문 완료 <br>
 
 ![image](https://user-images.githubusercontent.com/62331803/92737563-3959b800-f3b6-11ea-99d6-16fde776c364.png)
 
-> 주문 목록 출력 <br>
+<br>
+
+#### >> 주문 목록 출력 <br>
 - 주문정보와 결제유무를 나타냄
 ![image](https://user-images.githubusercontent.com/62331803/92737764-6017ee80-f3b6-11ea-87a0-8b45e5ca1b71.png)
 
-> 결제 <br>
+<br>
+
+#### >> 결제 <br>
 
 ![image](https://user-images.githubusercontent.com/62331803/92739220-9efa7400-f3b7-11ea-866f-c67744a33a5f.png)
+<br>
 
 - 결제완료 <br>
-![image](https://user-images.githubusercontent.com/62331803/92739541-f698df80-f3b7-11ea-8a4b-c52d7d3ff990.png)
+![image](https://user-images.githubusercontent.com/62331803/92740944-1f6da480-f3b9-11ea-8b99-3a5592de9388.png)
 
-> 주문취소 <br>
+#### >> 주문취소 <br>
 
 ![image](https://user-images.githubusercontent.com/62331803/92739718-23e58d80-f3b8-11ea-9172-552f7942e10d.png)
+
+<br>
 
 - 목록에서 주문 삭제됨 <br>
 
 ![image](https://user-images.githubusercontent.com/62331803/92739911-4a0b2d80-f3b8-11ea-9202-0537dde47378.png)
+<br>
 
-
-> 종료 
+#### >> 종료 
 - 서버측 콘솔 <br>
 
 ![image](https://user-images.githubusercontent.com/62331803/92740044-66a76580-f3b8-11ea-9626-71f26432c226.png)
